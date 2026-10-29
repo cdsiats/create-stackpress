@@ -2,7 +2,7 @@
 
 - **Task ID:** T-004
 - **Task control:** 00004
-- **Status:** verified
+- **Status:** accepted
 - **Depends on:** T-002, T-003
 
 ## Task Summary
@@ -46,4 +46,4 @@ The user reviews a terminal recording or screenshot of one interactive flow and 
 
 ## Acceptance Notes
 
-- Interactive and non-interactive terminal behavior observed. Task remains `verified` until user acceptance.
+- Interactive and non-interactive terminal behavior observed and accepted by the user on 2026-10-30.
