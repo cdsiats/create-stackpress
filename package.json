@@ -1,0 +1,34 @@
+{
+  "name": "@cdsiats/create-stackpress",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Scaffold Stackpress applications",
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "create-stackpress": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node scripts/test.mjs",
+    "test:watch": "node --import tsx --test --watch tests"
+  },
+  "dependencies": {
+    "@clack/prompts": "1.8.1",
+    "tar": "7.5.22"
+  },
+  "devDependencies": {
+    "@types/node": "25.3.5",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}

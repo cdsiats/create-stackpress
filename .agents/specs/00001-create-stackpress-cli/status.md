@@ -44,6 +44,14 @@
 - **Basis:** v1 architecture, CLI contract, user journeys, and D-008 through D-014 approved.
 - **Reopening:** Requires explicit user permission. Record the reason, affected files, and new evidence before editing.
 
+## Implementation
+
+- **Status:** `accepted`
+- **Plan:** [Implementation Sprint](tasks/sprint.md)
+- **Plan accepted:** 2026-10-29
+- **Task ledger:** [Task Status](tasks/status.md)
+- **Next action:** Implement T-001.
+
 ## Recommended Next Action
 
-Use the Spec Task Implementation Workflow to create `.agents/specs/00001-create-stackpress-cli/tasks/` and begin implementation. Do not change Frozen Spec Files without explicit user permission.
+Start T-001: repository and package foundation. Create the task ledger and task files first, then implement and verify T-001.
