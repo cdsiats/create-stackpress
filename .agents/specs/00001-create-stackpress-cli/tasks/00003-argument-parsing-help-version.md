@@ -2,7 +2,7 @@
 
 - **Task ID:** T-003
 - **Task control:** 00003
-- **Status:** verified
+- **Status:** accepted
 - **Depends on:** T-002
 
 ## Task Summary
@@ -46,4 +46,4 @@ The user reviews terminal output from `node dist/cli.js --help` and `node dist/c
 
 ## Acceptance Notes
 
-- Terminal help/version output presented for user review. Task remains `verified` until accepted.
+- Terminal help/version output presented and accepted by the user on 2026-10-29.

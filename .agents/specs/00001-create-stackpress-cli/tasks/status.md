@@ -12,8 +12,8 @@ Implementation ledger for `00001-create-stackpress-cli`. Plan accepted 2026-10-2
 | --- | --- | --- | --- | --- | --- |
 | [T-001](00001-repository-foundation.md) | 00001 | Repository and package foundation | verified | None | None |
 | [T-002](00002-cli-types-errors-output.md) | 00002 | CLI types, errors, and output primitives | verified | T-001 | None |
-| [T-003](00003-argument-parsing-help-version.md) | 00003 | Argument parsing, help, and version | verified | T-002 | Terminal help/version |
-| [T-004](00004-interaction-detection-prompts.md) | 00004 | Interaction detection and prompts | open | T-002, T-003 | Terminal interaction |
+| [T-003](00003-argument-parsing-help-version.md) | 00003 | Argument parsing, help, and version | accepted | T-002 | Terminal help/version |
+| [T-004](00004-interaction-detection-prompts.md) | 00004 | Interaction detection and prompts | verified | T-002, T-003 | Terminal interaction |
 | [T-005](00005-template-manifest-resolver.md) | 00005 | Template manifest, resolver, and package merge | open | T-002 | None |
 | [T-006](00006-staging-commit-rollback.md) | 00006 | Staging, commit, overwrite, and rollback | open | T-005 | None |
 | [T-007](00007-base-type-fragments.md) | 00007 | Base and project-type fragments | open | T-005 | None |
@@ -32,10 +32,12 @@ Implementation ledger for `00001-create-stackpress-cli`. Plan accepted 2026-10-2
 | T-001 | 2026-10-29 | `npm run typecheck`, `npm test`, `npm run build`, `node dist/cli.js --version` | 1 test passed; CLI printed `create-stackpress 0.0.0`. |
 | T-002 | 2026-10-29 | `npm run typecheck`, `npm test` | 7 tests passed; types, errors, output, and color behavior covered. |
 | T-003 | 2026-10-29 | `npm run typecheck`, `npm test`, `npm run build`, help/version/invalid-flag smoke | 13 tests passed; help/version output and exit code 2 verified. |
+| T-004 | 2026-10-29 | `npm run typecheck`, `npm test`, non-TTY smoke, interactive PTY walkthrough | 29 tests passed; prompts, defaults, cancel/decline, and plan review verified. |
 
 ## Acceptance Log
 
 | Task | Accepted on | Mode | Evidence | Notes |
 | --- | --- | --- | --- | --- |
 | T-001 | Not applicable | None | Verification only | Acceptance criteria: none. |
-| T-003 | Pending | Manual terminal review | `node dist/cli.js --help`, `node dist/cli.js --version` | User acceptance pending. |
+| T-003 | 2026-10-29 | Manual terminal review | `node dist/cli.js --help`, `node dist/cli.js --version` | Accepted by user. |
+| T-004 | Pending | Manual terminal review | Interactive PTY walkthrough and non-TTY plan output | User acceptance pending. |
