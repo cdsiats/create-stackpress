@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "chrisai-chatting": {
+      "source": "cblanquera/chrisai",
+      "sourceType": "github",
+      "skillPath": "skills/chrisai-chatting/SKILL.md",
+      "computedHash": "623d4dc7bdf9e4a94f78b7d598bd704b7a04e66741c43871f604ef5e32eab8c1"
+    },
+    "chrisai-coding": {
+      "source": "cblanquera/chrisai",
+      "sourceType": "github",
+      "skillPath": "skills/chrisai-coding/SKILL.md",
+      "computedHash": "c212045907a2d8d04d1e4d4b8f7184232d3e1b59254a85c642454a4af2c3518c"
+    },
+    "chrisai-doctor": {
+      "source": "cblanquera/chrisai",
+      "sourceType": "github",
+      "skillPath": "skills/chrisai-doctor/SKILL.md",
+      "computedHash": "6ac607d281192a01b50ab87b902cb2c1ad985fe8bac933c7d528729150455c69"
+    },
+    "chrisai-iconography": {
+      "source": "cblanquera/chrisai",
+      "sourceType": "github",
+      "skillPath": "skills/chrisai-iconography/SKILL.md",
+      "computedHash": "732aaff2385ad703ca087925de8cf4c10200fbef8b056ac91fdac5fb62647f76"
+    },
+    "chrisai-knowledge": {
+      "source": "cblanquera/chrisai",
+      "sourceType": "github",
+      "skillPath": "skills/chrisai-knowledge/SKILL.md",
+      "computedHash": "668549ef3fbf5ddfd9658dd47e2e6a62946321b91049e22c20db8739d086c730"
+    }
+  }
+}
