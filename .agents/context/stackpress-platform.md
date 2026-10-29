@@ -145,12 +145,21 @@ Inquire provides separate connection packages. The generated project must instal
 
 The Inquire README lists **Node.js 22 or newer** and **yarn** as requirements. The Stackpress template scripts also assume yarn.
 
+## Proof-Verified Generation Constraints
+
+These were verified by the `create-stackpress` proof prototypes under `proofs/`:
+
+- **Windows command launch:** package-manager `.cmd` shims cannot be launched with `shell: false`; Node throws `EINVAL`. Use `shell: true` or an explicit `cmd.exe` wrapper on Windows, allow only fixed/validated arguments, and reject shell metacharacters. Keep `shell: false` on POSIX and for generic executable runs.
+- **Stackpress event handlers:** generated event handlers must accept at least one parameter. A zero-parameter function passed to `server.on` or a route helper is treated as a lazy import action, not an event handler.
+- **Driver pinning:** pin driver versions that satisfy adapter peer ranges. For the current adapters, `better-sqlite3` must stay on `^12` (pin `12.4.1`) and `@electric-sql/pglite` on `^0.3` (pin `0.3.15`). Their latest releases are outside those ranges.
+- **PGlite connection:** the working minimal project imports `connect` from `stackpress/pglite` and installs both `@electric-sql/pglite` and `@stackpress/inquire-pglite`.
+
 ## Derived Implications for Scaffolding
 
-These follow from the verified facts above; they are not yet accepted product decisions:
+These follow from the verified facts above:
 
 - A generated project must emit a `package.json` with `"type": "module"` and a valid `plugins` list, plus at least one local plugin with a default export.
 - Database selection affects dependencies, the store `connect.ts` implementation, environment samples, and possibly database config.
-- A full-stack scaffold needs the React/view stack; an API-only scaffold may omit some or all of it, but the exact boundary is unconfirmed.
+- The accepted capability matrix defines what each project type includes; see [Project brief](project-brief.md).
 - Compatibility behaviors worth considering from the existing `create` command: empty-directory enforcement, npm package-name validation, and `.gitignore` handling.
-- The existing command already scaffolds one template. The new tool's differentiator is selectable project types and databases; how the two commands should relate is an open decision.
+- The existing command already scaffolds one template. The new tool coexists as the higher-level preset generator with selectable project types and databases.
