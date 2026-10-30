@@ -1,6 +1,6 @@
 {
   "name": "@cdsiats/create-stackpress",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "Scaffold Stackpress applications",
   "type": "module",
@@ -38,9 +38,13 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "release:check": "node scripts/release-check.mjs",
     "test": "node scripts/test.mjs",
     "test:unit": "node scripts/test.mjs unit",
     "test:snapshot": "node scripts/test.mjs snapshot",

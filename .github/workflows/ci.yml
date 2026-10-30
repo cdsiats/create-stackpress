@@ -2,6 +2,8 @@ name: CI
 
 on:
   push:
+    branches:
+      - '**'
   pull_request:
 
 permissions:
@@ -42,6 +44,9 @@ jobs:
 
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Check release metadata
+        run: npm run release:check
 
       - name: Test
         run: npm test

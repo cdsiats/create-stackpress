@@ -7,7 +7,7 @@
 - **GitHub repository:** `cdsiats/create-stackpress`
 - **Repository summary:** developer tool for starting Stackpress applications.
 - **Product category:** command-line project scaffolder comparable to `create-react-app`.
-- **Current state:** greenfield product. The repository contains the `.agents/` workspace and proof prototypes under `proofs/`; production CLI source, package manifest, tests, and bundled templates do not exist yet.
+- **Current state:** `@cdsiats/create-stackpress` 0.1.0 is published on npm. Production CLI source, tests, bundled templates, CI, and tag-driven release automation are in place.
 
 ## Goal
 
@@ -62,6 +62,16 @@ Website/content was removed as a separate type because the user judged it equiva
 - Run cross-platform on **Node.js**; the CLI requires Node.js 22 or newer.
 - Test the preset x database matrix and smoke-test install/build on Windows, macOS, and Linux.
 
+### Release and Publishing
+
+- Releases are triggered by pushing a `v*` git tag that matches `package.json` and `CLI_VERSION` in `src/version.ts`, on the default branch.
+- GitHub Actions verifies the tag, runs typecheck, the full test suite, a build, and the heavy packaged-CLI smoke before publishing.
+- The workflow packs one tarball, publishes that exact tarball to npm, and attaches it to a GitHub Release with generated notes.
+- npm authentication uses trusted publishing (OIDC) with automatic provenance; no long-lived npm token is stored in GitHub.
+- Version numbers are bumped manually in `package.json` and `src/version.ts` before tagging. `TEMPLATE_VERSION` is bumped when bundled templates change.
+- Stable versions publish with the `latest` dist-tag; prerelease versions publish with `next`.
+- The operational checklist and one-time npm trusted-publisher setup live in [RELEASING.md](../../RELEASING.md).
+
 ### Reference Material
 
 - The Stackpress documentation site is the authoritative external reference: <https://www.stackpress.io/>.
@@ -73,7 +83,7 @@ These details remain open or pending review:
 
 - user review of the drafted template architecture and CLI contract;
 - exact generated file contents for each project type and database;
-- release, publishing, and upgrade strategy details;
+- upgrade strategy details;
 - live database integration testing for server-backed databases.
 
 User-journey coverage is complete in the spec. The remaining items are implementation-planning or review questions and must not be treated as accepted truth until the user confirms them or the spec Freeze records them.

@@ -77,15 +77,20 @@ The existing remote-template tests include a separate `CREATE_STACKPRESS_LIVE_TE
 ## Packaging checks
 
 ```bash
+npm run release:check
 npm run build
 npm pack --dry-run --json
 ```
 
 The package `files` allowlist is `dist`, `templates`, and `README.md`; npm always adds `package.json`. Inspect the `files` array in the JSON output if the published artifact looks wrong. `tests/smoke/cli-package.test.ts` also fails if any fragment manifest disappears from `templates/`.
 
+`release:check` verifies that `package.json`, `package-lock.json`, `src/version.ts` `CLI_VERSION`, and an optional `--tag vX.Y.Z` agree. It does not contact the registry or publish.
+
 ## CI matrix
 
-`.github/workflows/ci.yml` runs Windows, macOS, and Linux with Node.js 22 and 24. Each job uses a read-only token, npm cache, `npm ci`, `npm run typecheck`, `npm test`, `npm run build`, and the packaged-CLI smoke. Node 22 additionally enables the heavy smoke.
+`.github/workflows/ci.yml` runs Windows, macOS, and Linux with Node.js 22 and 24. Each job uses a read-only token, npm cache, `npm ci`, `npm run typecheck`, `npm run release:check`, `npm test`, `npm run build`, and the packaged-CLI smoke. Node 22 additionally enables the heavy smoke.
+
+The separate Release workflow runs on `v*` tags, verifies the tag is on the default branch, repeats the checks including the heavy smoke, then publishes the packed tarball to npm with trusted publishing and creates a GitHub Release. See [RELEASING.md](RELEASING.md).
 
 ## Windows notes
 
