@@ -27,6 +27,7 @@ This is a Stackpress `{{type}}` project using `{{database}}` with the
 - `config/` holds application, feature, and database configuration.
 - `plugins/app/` holds application routes and views.
 - `plugins/store/` holds the database connection and populate logic.
+- `public/` holds the logo, icon, favicons, and global styles.
 - `schema.idea` holds the schema declarations.
 
 Never commit `.env`. Update `.env.sample` when you add a required variable.

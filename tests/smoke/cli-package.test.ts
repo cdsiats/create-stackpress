@@ -146,6 +146,11 @@ test('the built CLI generates a full-stack/PGlite project', async () => {
     'config/develop.ts',
     'package.json',
     'plugins/store/connect.ts',
+    'public/favicon.ico',
+    'public/favicon.png',
+    'public/icon.png',
+    'public/logo.png',
+    'public/styles/global.css',
     'schema.idea',
     'scripts/stackpress.ts',
     'tsconfig.json'
@@ -258,7 +263,12 @@ test('the package dry run lists dist, templates, README, and package metadata', 
     'package.json',
     'dist/cli.js',
     'templates/manifest.json',
-    'templates/base/manifest.json'
+    'templates/base/manifest.json',
+    'templates/base/public/favicon.ico',
+    'templates/base/public/favicon.png',
+    'templates/base/public/icon.png',
+    'templates/base/public/logo.png',
+    'templates/base/public/styles/global.css'
   ]) {
     assert.ok(paths.has(required), `packed tarball is missing ${required}`);
   }

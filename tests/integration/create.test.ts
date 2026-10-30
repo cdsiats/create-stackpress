@@ -44,6 +44,11 @@ const FULL_STACK_PGLITE_FILES = [
   'plugins/store/connect.ts',
   'plugins/store/plugin.ts',
   'plugins/store/populate.ts',
+  'public/favicon.ico',
+  'public/favicon.png',
+  'public/icon.png',
+  'public/logo.png',
+  'public/styles/global.css',
   'schema.idea',
   'scripts/stackpress.ts',
   'tsconfig.json',
@@ -236,7 +241,7 @@ test('generates a full-stack/PGlite project with documentation and next steps', 
   for (const step of result.nextSteps) {
     assert.ok(stdout.includes(step), `stdout should include "${step}"`);
   }
-  assert.match(stdout, /Files: 19/);
+  assert.match(stdout, /Files: 24/);
   assert.match(stdout, /Pinned versions: stackpress 0\.10\.8/);
   assert.match(stdout, /@electric-sql\/pglite 0\.3\.15/);
   assert.match(stdout, /PGlite runs locally; no database server is required/);
@@ -306,7 +311,7 @@ test('dry run prints the plan and file list without writing', async () => {
   assert.equal(result.gitInitialized, false);
   assert.deepEqual(result.nextSteps, []);
   assert.match(stdout, /Mode: dry run \(no files will be written\)/);
-  assert.match(stdout, /Files: 19/);
+  assert.match(stdout, /Files: 24/);
   assert.match(stdout, /^\s+package\.json$/m);
   assert.match(stdout, /^\s+README\.md$/m);
   assert.doesNotMatch(stdout, /Created /);
