@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "admin-only",
+  "kind": "type",
+  "requires": [
+    "base"
+  ],
+  "capabilities": [
+    "admin",
+    "auth",
+    "database"
+  ],
+  "files": [],
+  "assets": [],
+  "package": {
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {},
+    "plugins": []
+  },
+  "env": []
+}

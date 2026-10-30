@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "database-cockroachdb",
+  "kind": "database",
+  "requires": [
+    "base"
+  ],
+  "capabilities": [
+    "database"
+  ],
+  "files": [
+    "plugins/store/connect.ts"
+  ],
+  "assets": [],
+  "package": {
+    "dependencies": {
+      "@stackpress/inquire-pg": "0.10.8",
+      "pg": "8.16.3"
+    },
+    "devDependencies": {
+      "@types/pg": "8.16.0"
+    },
+    "scripts": {},
+    "plugins": [
+      "plugins/store/plugin"
+    ]
+  },
+  "env": [
+    "DATABASE_URL=postgres://root@localhost:26257/defaultdb?sslmode=disable"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "database-pglite",
+  "kind": "database",
+  "requires": ["base"],
+  "capabilities": ["database"],
+  "files": ["config/database.ts", "plugins/store/connect.ts"],
+  "package": {
+    "dependencies": {
+      "@electric-sql/pglite": "0.3.15",
+      "@stackpress/inquire-pglite": "0.10.8"
+    },
+    "plugins": ["./plugins/store/plugin"]
+  },
+  "env": ["DATABASE_URL=./.build/database"]
+}

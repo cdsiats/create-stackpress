@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "api-only",
+  "kind": "type",
+  "requires": [
+    "base"
+  ],
+  "capabilities": [
+    "api",
+    "auth",
+    "database"
+  ],
+  "files": [],
+  "assets": [],
+  "package": {
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {},
+    "plugins": []
+  },
+  "env": []
+}

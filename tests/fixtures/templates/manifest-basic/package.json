@@ -1,0 +1,16 @@
+{
+  "name": "template-manifest-basic",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "base": "echo base"
+  },
+  "dependencies": {
+    "base-dep": "2.0.0"
+  },
+  "devDependencies": {
+    "base-dev": "3.0.0"
+  },
+  "plugins": ["base/plugin"]
+}

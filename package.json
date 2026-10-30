@@ -1,25 +1,51 @@
 {
   "name": "@cdsiats/create-stackpress",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
   "description": "Scaffold Stackpress applications",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cdsiats/create-stackpress.git"
+  },
+  "homepage": "https://github.com/cdsiats/create-stackpress#readme",
+  "bugs": {
+    "url": "https://github.com/cdsiats/create-stackpress/issues"
+  },
+  "keywords": [
+    "stackpress",
+    "scaffold",
+    "generator",
+    "cli",
+    "typescript",
+    "react",
+    "pglite",
+    "postgresql",
+    "cockroachdb",
+    "mysql",
+    "sqlite"
+  ],
   "engines": {
     "node": ">=22"
   },
   "bin": {
-    "create-stackpress": "./dist/cli.js"
+    "create-stackpress": "dist/cli.js"
   },
   "files": [
     "dist",
     "templates",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node scripts/test.mjs",
+    "test:unit": "node scripts/test.mjs unit",
+    "test:snapshot": "node scripts/test.mjs snapshot",
+    "test:integration": "node scripts/test.mjs integration",
+    "test:smoke": "node scripts/test.mjs smoke",
     "test:watch": "node --import tsx --test --watch tests"
   },
   "dependencies": {

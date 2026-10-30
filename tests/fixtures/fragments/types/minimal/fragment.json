@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "minimal",
+  "kind": "type",
+  "requires": ["base"],
+  "capabilities": ["database"],
+  "files": ["config/capabilities.ts"],
+  "package": {
+    "plugins": ["./plugins/app/plugin"]
+  }
+}

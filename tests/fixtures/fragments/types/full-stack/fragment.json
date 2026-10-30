@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "full-stack",
+  "kind": "type",
+  "requires": ["base"],
+  "capabilities": ["views", "admin", "api", "auth", "content", "database"],
+  "files": [
+    "config/capabilities.ts",
+    "plugins/admin/plugin.ts",
+    "plugins/api/plugin.ts",
+    "plugins/auth/plugin.ts",
+    "public/pages/home.tsx"
+  ],
+  "package": {
+    "dependencies": {
+      "react": "19.2.4",
+      "react-dom": "19.2.4"
+    },
+    "devDependencies": {
+      "@types/react": "19.2.4"
+    },
+    "scripts": {
+      "preview": "stackpress serve --b config/preview -v"
+    },
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/api/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin"
+    ]
+  },
+  "env": ["APP_FEATURE_CONTENT=true"]
+}

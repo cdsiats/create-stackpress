@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "base",
+  "kind": "base",
+  "requires": [],
+  "capabilities": [],
+  "files": [".env.sample", "plugins/store/plugin.ts"],
+  "assets": [],
+  "package": {
+    "dependencies": {
+      "stackpress": "0.10.8"
+    },
+    "devDependencies": {},
+    "scripts": {
+      "dev": "stackpress develop -v"
+    },
+    "plugins": ["plugins/store/plugin"]
+  },
+  "env": []
+}

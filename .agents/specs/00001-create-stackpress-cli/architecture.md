@@ -61,7 +61,7 @@ The resolver merges in base, type, database order. A remote template replaces th
   "kind": "database",
   "requires": ["base"],
   "capabilities": ["database"],
-  "files": ["plugins/store/connect.ts", "config/database.ts"],
+  "files": ["plugins/store/connect.ts"],
   "assets": [],
   "package": {
     "dependencies": {
@@ -83,8 +83,8 @@ The manifest is data, not executable code. The CLI validates `schemaVersion`, ID
 | Owner | Owns |
 | --- | --- |
 | Base | `package.json` fields, `plugins/app/plugin`, `plugins/store/plugin`, `tsconfig.json`, `README.md`, `AGENTS.md`, `gitignore`, `.env.sample` |
-| Project type | `config/capabilities.ts`, public views and pages, admin/API/auth plugins, type-specific dependencies and scripts |
-| Database | `plugins/store/connect.ts`, `config/database.ts`, adapter/driver dependencies, database env line |
+| Project type | `config/features.ts`, public views and pages, type-specific dependencies and scripts |
+| Database | `plugins/store/connect.ts`, adapter/driver dependencies, database env line |
 | CLI | `package.json` rendering, package name, generated README metadata, next-step commands |
 | Remote template | Its declared file set; cannot silently overwrite core fragments |
 
@@ -130,7 +130,7 @@ The manifest is data, not executable code. The CLI validates `schemaVersion`, ID
 | `minimal` | Base server plugin and database | Public views, admin, API surface, auth, content/pages |
 | `admin-only` | Admin, auth, database | Public views, content/pages |
 
-The generated `config/capabilities.ts` records the accepted set so future code can branch without guessing.
+The CLI resolves the accepted capability set internally from the project type. The generated `config/common.ts` conditionally exports the selected type's `admin`, `api`, `auth`, and `views` values using a compile-time `{{type}}` constant, so the generated config keeps the canonical Stackpress shape (`common.ts`, `develop.ts`, `build.ts`, `client.ts`) with no extra config file.
 
 ## Database Matrix
 

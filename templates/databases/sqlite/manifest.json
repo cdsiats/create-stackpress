@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "database-sqlite",
+  "kind": "database",
+  "requires": [
+    "base"
+  ],
+  "capabilities": [
+    "database"
+  ],
+  "files": [
+    "plugins/store/connect.ts"
+  ],
+  "assets": [],
+  "package": {
+    "dependencies": {
+      "@stackpress/inquire-sqlite3": "0.10.8",
+      "better-sqlite3": "12.4.1"
+    },
+    "devDependencies": {
+      "@types/better-sqlite3": "7.6.13"
+    },
+    "scripts": {},
+    "plugins": [
+      "plugins/store/plugin"
+    ]
+  },
+  "env": [
+    "DATABASE_URL=./.build/database.sqlite"
+  ]
+}
