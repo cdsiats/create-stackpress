@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "api-only",
+  "kind": "type",
+  "requires": ["base"],
+  "capabilities": ["api", "auth", "database"],
+  "files": [
+    "config/capabilities.ts",
+    "plugins/api/plugin.ts",
+    "plugins/auth/plugin.ts"
+  ],
+  "package": {
+    "plugins": [
+      "./plugins/api/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin"
+    ]
+  }
+}

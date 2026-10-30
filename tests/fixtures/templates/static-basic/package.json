@@ -1,0 +1,24 @@
+{
+  "name": "template-static-basic",
+  "version": "0.1.0",
+  "private": false,
+  "type": "commonjs",
+  "description": "Static fixture template",
+  "scripts": {
+    "dev": "node src/index.js",
+    "build": "node src/index.js --build"
+  },
+  "dependencies": {
+    "fixture-runtime": "1.2.3"
+  },
+  "devDependencies": {
+    "fixture-dev": "4.5.6"
+  },
+  "engines": {
+    "npm": ">=10"
+  },
+  "plugins": [
+    "fixture/plugin",
+    "stackpress"
+  ]
+}

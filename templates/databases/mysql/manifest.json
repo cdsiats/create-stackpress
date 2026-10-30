@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "database-mysql",
+  "kind": "database",
+  "requires": [
+    "base"
+  ],
+  "capabilities": [
+    "database"
+  ],
+  "files": [
+    "plugins/store/connect.ts"
+  ],
+  "assets": [],
+  "package": {
+    "dependencies": {
+      "@stackpress/inquire-mysql2": "0.10.8",
+      "mysql2": "3.15.3"
+    },
+    "devDependencies": {},
+    "scripts": {},
+    "plugins": [
+      "plugins/store/plugin"
+    ]
+  },
+  "env": [
+    "DATABASE_URL=mysql://root:root@localhost:3306/app"
+  ]
+}

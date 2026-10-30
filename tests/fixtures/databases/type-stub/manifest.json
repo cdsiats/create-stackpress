@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "minimal",
+  "kind": "type",
+  "requires": ["base"],
+  "capabilities": ["database"],
+  "files": [],
+  "assets": [],
+  "package": {
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {},
+    "plugins": []
+  },
+  "env": []
+}

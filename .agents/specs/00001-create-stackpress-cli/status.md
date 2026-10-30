@@ -44,14 +44,24 @@
 - **Basis:** v1 architecture, CLI contract, user journeys, and D-008 through D-014 approved.
 - **Reopening:** Requires explicit user permission. Record the reason, affected files, and new evidence before editing.
 
+## Reopen Record
+
+- **Opened on:** 2026-10-30
+- **Approved by:** User review comment: the generated config had unnecessary files compared with the canonical Stackpress templates.
+- **Reason:** T-007A added `config/base.ts`, `config/feature-types.ts`, `config/capabilities.ts`, and `config/database.ts` beyond the canonical `config/common.ts`, `config/develop.ts`, `config/build.ts`, and `config/client.ts`. The extra files were an implementation device, not Stackpress requirements.
+- **Affected files:** `architecture.md` (Fragment Manifest example, File Ownership, Project Type Presets), `tasks/00007B-simplify-generated-config.md`.
+- **New evidence:** `stackpress/stackpress` `templates/website` and `skills/stackpress-app-scaffold/assets/template` on `main`, accessed 2026-10-30.
+- **Resolution:** Keep exactly the canonical four config files. The four-preset split is a compile-time `{{type}}` conditional inside `config/common.ts`, not a separate file. Capabilities are tracked internally by the CLI. Database settings stay in `config/common.ts`; the database connection stays in `plugins/store/connect.ts`.
+
 ## Implementation
 
-- **Status:** `accepted`
+- **Status:** `completed`
+- **Completed on:** 2026-10-30
 - **Plan:** [Implementation Sprint](tasks/sprint.md)
 - **Plan accepted:** 2026-10-29
 - **Task ledger:** [Task Status](tasks/status.md)
-- **Next action:** Implement T-001.
+- **Next action:** Release version decision and npm publish authentication.
 
 ## Recommended Next Action
 
-Start T-001: repository and package foundation. Create the task ledger and task files first, then implement and verify T-001.
+All implementation tasks are accepted. The package is release-ready at `0.1.0`, MIT, with a 164-entry pack and a passing publish dry run. Authenticate to the `@cdsiats` npm scope, then publish.

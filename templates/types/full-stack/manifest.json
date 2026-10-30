@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "full-stack",
+  "kind": "type",
+  "requires": [
+    "base"
+  ],
+  "capabilities": [
+    "views",
+    "admin",
+    "api",
+    "auth",
+    "content",
+    "database"
+  ],
+  "files": [],
+  "assets": [],
+  "package": {
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {},
+    "plugins": []
+  },
+  "env": []
+}

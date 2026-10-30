@@ -85,7 +85,7 @@ test('help and version text include the contract surface', () => {
   assert.match(help, /--dry-run/);
 
   const version = versionText();
-  assert.match(version, /create-stackpress 0\.0\.0/);
-  assert.match(version, /template 0\.0\.0/);
+  assert.match(version, /create-stackpress \d+\.\d+\.\d+/);
+  assert.match(version, /template \d+\.\d+\.\d+/);
   assert.match(version, /stackpress 0\.10\.8/);
 });

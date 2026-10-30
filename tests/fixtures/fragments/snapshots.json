@@ -1,0 +1,2452 @@
+{
+  "full-stack:pglite": {
+    "type": "full-stack",
+    "database": "pglite",
+    "capabilities": [
+      "views",
+      "admin",
+      "api",
+      "auth",
+      "content",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "APP_FEATURE_CONTENT=true",
+      "DATABASE_URL=./.build/database",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "preview": "stackpress serve --b config/preview -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@electric-sql/pglite": "0.3.15",
+        "@stackpress/inquire-pglite": "0.10.8",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "@types/react": "19.2.4",
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nAPP_FEATURE_CONTENT=true\nDATABASE_URL=./.build/database\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress full-stack project using pglite.\n\n- Adapter: @stackpress/inquire-pglite\n- Driver: @electric-sql/pglite\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "// Preset: full-stack\nexport const capabilities = [\n  'views',\n  'admin',\n  'api',\n  'auth',\n  'content',\n  'database'\n] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "export const config = {\n  database: 'pglite',\n  driver: '@electric-sql/pglite'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'full-stack' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "// Database: pglite\n// Adapter: @stackpress/inquire-pglite\n// Driver: @electric-sql/pglite\nexport const database = 'pglite';\nexport const adapter = '@stackpress/inquire-pglite';\nexport const driver = '@electric-sql/pglite';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "public/pages/home.tsx",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "export default function Home() {\n  return <main>stackpress-app home page</main>;\n}\n"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "full-stack:postgres": {
+    "type": "full-stack",
+    "database": "postgres",
+    "capabilities": [
+      "views",
+      "admin",
+      "api",
+      "auth",
+      "content",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "APP_FEATURE_CONTENT=true",
+      "DATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "preview": "stackpress serve --b config/preview -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "@types/react": "19.2.4",
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nAPP_FEATURE_CONTENT=true\nDATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress full-stack project using postgres.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "// Preset: full-stack\nexport const capabilities = [\n  'views',\n  'admin',\n  'api',\n  'auth',\n  'content',\n  'database'\n] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "export const config = {\n  database: 'postgres',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'full-stack' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "// Database: postgres\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'postgres';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "public/pages/home.tsx",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "export default function Home() {\n  return <main>stackpress-app home page</main>;\n}\n"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "full-stack:cockroachdb": {
+    "type": "full-stack",
+    "database": "cockroachdb",
+    "capabilities": [
+      "views",
+      "admin",
+      "api",
+      "auth",
+      "content",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "APP_FEATURE_CONTENT=true",
+      "DATABASE_URL=postgres://root@localhost:26257/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "preview": "stackpress serve --b config/preview -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "@types/react": "19.2.4",
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nAPP_FEATURE_CONTENT=true\nDATABASE_URL=postgres://root@localhost:26257/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress full-stack project using cockroachdb.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "// Preset: full-stack\nexport const capabilities = [\n  'views',\n  'admin',\n  'api',\n  'auth',\n  'content',\n  'database'\n] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "export const config = {\n  database: 'cockroachdb',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'full-stack' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "// Database: cockroachdb\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'cockroachdb';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "public/pages/home.tsx",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "export default function Home() {\n  return <main>stackpress-app home page</main>;\n}\n"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "full-stack:mysql": {
+    "type": "full-stack",
+    "database": "mysql",
+    "capabilities": [
+      "views",
+      "admin",
+      "api",
+      "auth",
+      "content",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "APP_FEATURE_CONTENT=true",
+      "DATABASE_URL=mysql://root:root@localhost:3306/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "preview": "stackpress serve --b config/preview -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-mysql2": "0.10.8",
+        "mysql2": "3.15.3",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "@types/react": "19.2.4",
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nAPP_FEATURE_CONTENT=true\nDATABASE_URL=mysql://root:root@localhost:3306/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress full-stack project using mysql.\n\n- Adapter: @stackpress/inquire-mysql2\n- Driver: mysql2\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "// Preset: full-stack\nexport const capabilities = [\n  'views',\n  'admin',\n  'api',\n  'auth',\n  'content',\n  'database'\n] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "export const config = {\n  database: 'mysql',\n  driver: 'mysql2'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'full-stack' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "// Database: mysql\n// Adapter: @stackpress/inquire-mysql2\n// Driver: mysql2\nexport const database = 'mysql';\nexport const adapter = '@stackpress/inquire-mysql2';\nexport const driver = 'mysql2';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "public/pages/home.tsx",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "export default function Home() {\n  return <main>stackpress-app home page</main>;\n}\n"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "full-stack:sqlite": {
+    "type": "full-stack",
+    "database": "sqlite",
+    "capabilities": [
+      "views",
+      "admin",
+      "api",
+      "auth",
+      "content",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "APP_FEATURE_CONTENT=true",
+      "DATABASE_URL=./.build/database.sqlite",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "preview": "stackpress serve --b config/preview -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-sqlite3": "0.10.8",
+        "better-sqlite3": "12.4.1",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "@types/react": "19.2.4",
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nAPP_FEATURE_CONTENT=true\nDATABASE_URL=./.build/database.sqlite\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress full-stack project using sqlite.\n\n- Adapter: @stackpress/inquire-sqlite3\n- Driver: better-sqlite3\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "// Preset: full-stack\nexport const capabilities = [\n  'views',\n  'admin',\n  'api',\n  'auth',\n  'content',\n  'database'\n] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "export const config = {\n  database: 'sqlite',\n  driver: 'better-sqlite3'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'full-stack' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "// Database: sqlite\n// Adapter: @stackpress/inquire-sqlite3\n// Driver: better-sqlite3\nexport const database = 'sqlite';\nexport const adapter = '@stackpress/inquire-sqlite3';\nexport const driver = 'better-sqlite3';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "public/pages/home.tsx",
+        "binary": false,
+        "fragmentId": "full-stack",
+        "contents": "export default function Home() {\n  return <main>stackpress-app home page</main>;\n}\n"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "api-only:pglite": {
+    "type": "api-only",
+    "database": "pglite",
+    "capabilities": [
+      "api",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=./.build/database",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@electric-sql/pglite": "0.3.15",
+        "@stackpress/inquire-pglite": "0.10.8",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=./.build/database\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress api-only project using pglite.\n\n- Adapter: @stackpress/inquire-pglite\n- Driver: @electric-sql/pglite\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "// Preset: api-only\nexport const capabilities = ['api', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "export const config = {\n  database: 'pglite',\n  driver: '@electric-sql/pglite'\n};\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'api-only' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "// Database: pglite\n// Adapter: @stackpress/inquire-pglite\n// Driver: @electric-sql/pglite\nexport const database = 'pglite';\nexport const adapter = '@stackpress/inquire-pglite';\nexport const driver = '@electric-sql/pglite';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "api-only:postgres": {
+    "type": "api-only",
+    "database": "postgres",
+    "capabilities": [
+      "api",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress api-only project using postgres.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "// Preset: api-only\nexport const capabilities = ['api', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "export const config = {\n  database: 'postgres',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'api-only' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "// Database: postgres\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'postgres';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "api-only:cockroachdb": {
+    "type": "api-only",
+    "database": "cockroachdb",
+    "capabilities": [
+      "api",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=postgres://root@localhost:26257/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=postgres://root@localhost:26257/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress api-only project using cockroachdb.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "// Preset: api-only\nexport const capabilities = ['api', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "export const config = {\n  database: 'cockroachdb',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'api-only' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "// Database: cockroachdb\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'cockroachdb';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "api-only:mysql": {
+    "type": "api-only",
+    "database": "mysql",
+    "capabilities": [
+      "api",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=mysql://root:root@localhost:3306/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-mysql2": "0.10.8",
+        "mysql2": "3.15.3",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=mysql://root:root@localhost:3306/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress api-only project using mysql.\n\n- Adapter: @stackpress/inquire-mysql2\n- Driver: mysql2\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "// Preset: api-only\nexport const capabilities = ['api', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "export const config = {\n  database: 'mysql',\n  driver: 'mysql2'\n};\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'api-only' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "// Database: mysql\n// Adapter: @stackpress/inquire-mysql2\n// Driver: mysql2\nexport const database = 'mysql';\nexport const adapter = '@stackpress/inquire-mysql2';\nexport const driver = 'mysql2';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "api-only:sqlite": {
+    "type": "api-only",
+    "database": "sqlite",
+    "capabilities": [
+      "api",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=./.build/database.sqlite",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/api/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-sqlite3": "0.10.8",
+        "better-sqlite3": "12.4.1",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/api/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=./.build/database.sqlite\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress api-only project using sqlite.\n\n- Adapter: @stackpress/inquire-sqlite3\n- Driver: better-sqlite3\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "// Preset: api-only\nexport const capabilities = ['api', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "export const config = {\n  database: 'sqlite',\n  driver: 'better-sqlite3'\n};\n"
+      },
+      {
+        "path": "plugins/api/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function api(server: HttpServer) {\n  server.get('/api', ({ res }) => {\n    res.set('application/json', JSON.stringify({ preset: 'api-only' }));\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "api-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "// Database: sqlite\n// Adapter: @stackpress/inquire-sqlite3\n// Driver: better-sqlite3\nexport const database = 'sqlite';\nexport const adapter = '@stackpress/inquire-sqlite3';\nexport const driver = 'better-sqlite3';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "minimal:pglite": {
+    "type": "minimal",
+    "database": "pglite",
+    "capabilities": [
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=./.build/database",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/app/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@electric-sql/pglite": "0.3.15",
+        "@stackpress/inquire-pglite": "0.10.8",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/app/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=./.build/database\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress minimal project using pglite.\n\n- Adapter: @stackpress/inquire-pglite\n- Driver: @electric-sql/pglite\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "minimal",
+        "contents": "// Preset: minimal\nexport const capabilities = ['database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "export const config = {\n  database: 'pglite',\n  driver: '@electric-sql/pglite'\n};\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "// Database: pglite\n// Adapter: @stackpress/inquire-pglite\n// Driver: @electric-sql/pglite\nexport const database = 'pglite';\nexport const adapter = '@stackpress/inquire-pglite';\nexport const driver = '@electric-sql/pglite';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "minimal:postgres": {
+    "type": "minimal",
+    "database": "postgres",
+    "capabilities": [
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/app/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/app/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress minimal project using postgres.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "minimal",
+        "contents": "// Preset: minimal\nexport const capabilities = ['database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "export const config = {\n  database: 'postgres',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "// Database: postgres\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'postgres';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "minimal:cockroachdb": {
+    "type": "minimal",
+    "database": "cockroachdb",
+    "capabilities": [
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=postgres://root@localhost:26257/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/app/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/app/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=postgres://root@localhost:26257/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress minimal project using cockroachdb.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "minimal",
+        "contents": "// Preset: minimal\nexport const capabilities = ['database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "export const config = {\n  database: 'cockroachdb',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "// Database: cockroachdb\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'cockroachdb';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "minimal:mysql": {
+    "type": "minimal",
+    "database": "mysql",
+    "capabilities": [
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=mysql://root:root@localhost:3306/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/app/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-mysql2": "0.10.8",
+        "mysql2": "3.15.3",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/app/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=mysql://root:root@localhost:3306/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress minimal project using mysql.\n\n- Adapter: @stackpress/inquire-mysql2\n- Driver: mysql2\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "minimal",
+        "contents": "// Preset: minimal\nexport const capabilities = ['database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "export const config = {\n  database: 'mysql',\n  driver: 'mysql2'\n};\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "// Database: mysql\n// Adapter: @stackpress/inquire-mysql2\n// Driver: mysql2\nexport const database = 'mysql';\nexport const adapter = '@stackpress/inquire-mysql2';\nexport const driver = 'mysql2';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "minimal:sqlite": {
+    "type": "minimal",
+    "database": "sqlite",
+    "capabilities": [
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=./.build/database.sqlite",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/app/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-sqlite3": "0.10.8",
+        "better-sqlite3": "12.4.1",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/app/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=./.build/database.sqlite\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress minimal project using sqlite.\n\n- Adapter: @stackpress/inquire-sqlite3\n- Driver: better-sqlite3\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "minimal",
+        "contents": "// Preset: minimal\nexport const capabilities = ['database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "export const config = {\n  database: 'sqlite',\n  driver: 'better-sqlite3'\n};\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "// Database: sqlite\n// Adapter: @stackpress/inquire-sqlite3\n// Driver: better-sqlite3\nexport const database = 'sqlite';\nexport const adapter = '@stackpress/inquire-sqlite3';\nexport const driver = 'better-sqlite3';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "admin-only:pglite": {
+    "type": "admin-only",
+    "database": "pglite",
+    "capabilities": [
+      "admin",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=./.build/database",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@electric-sql/pglite": "0.3.15",
+        "@stackpress/inquire-pglite": "0.10.8",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=./.build/database\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress admin-only project using pglite.\n\n- Adapter: @stackpress/inquire-pglite\n- Driver: @electric-sql/pglite\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "// Preset: admin-only\nexport const capabilities = ['admin', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "export const config = {\n  database: 'pglite',\n  driver: '@electric-sql/pglite'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-pglite",
+        "contents": "// Database: pglite\n// Adapter: @stackpress/inquire-pglite\n// Driver: @electric-sql/pglite\nexport const database = 'pglite';\nexport const adapter = '@stackpress/inquire-pglite';\nexport const driver = '@electric-sql/pglite';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "admin-only:postgres": {
+    "type": "admin-only",
+    "database": "postgres",
+    "capabilities": [
+      "admin",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=postgres://postgres:postgres@localhost:5432/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress admin-only project using postgres.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "// Preset: admin-only\nexport const capabilities = ['admin', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "export const config = {\n  database: 'postgres',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-postgres",
+        "contents": "// Database: postgres\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'postgres';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "admin-only:cockroachdb": {
+    "type": "admin-only",
+    "database": "cockroachdb",
+    "capabilities": [
+      "admin",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=postgres://root@localhost:26257/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-pg": "0.10.8",
+        "pg": "8.16.3",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=postgres://root@localhost:26257/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress admin-only project using cockroachdb.\n\n- Adapter: @stackpress/inquire-pg\n- Driver: pg\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "// Preset: admin-only\nexport const capabilities = ['admin', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "export const config = {\n  database: 'cockroachdb',\n  driver: 'pg'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-cockroachdb",
+        "contents": "// Database: cockroachdb\n// Adapter: @stackpress/inquire-pg\n// Driver: pg\nexport const database = 'cockroachdb';\nexport const adapter = '@stackpress/inquire-pg';\nexport const driver = 'pg';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "admin-only:mysql": {
+    "type": "admin-only",
+    "database": "mysql",
+    "capabilities": [
+      "admin",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=mysql://root:root@localhost:3306/stackpress",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-mysql2": "0.10.8",
+        "mysql2": "3.15.3",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=mysql://root:root@localhost:3306/stackpress\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress admin-only project using mysql.\n\n- Adapter: @stackpress/inquire-mysql2\n- Driver: mysql2\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "// Preset: admin-only\nexport const capabilities = ['admin', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "export const config = {\n  database: 'mysql',\n  driver: 'mysql2'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-mysql",
+        "contents": "// Database: mysql\n// Adapter: @stackpress/inquire-mysql2\n// Driver: mysql2\nexport const database = 'mysql';\nexport const adapter = '@stackpress/inquire-mysql2';\nexport const driver = 'mysql2';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  },
+  "admin-only:sqlite": {
+    "type": "admin-only",
+    "database": "sqlite",
+    "capabilities": [
+      "admin",
+      "auth",
+      "database"
+    ],
+    "env": [
+      "APP_ENV=development",
+      "DATABASE_URL=./.build/database.sqlite",
+      "SESSION_SEED=change-me"
+    ],
+    "plugins": [
+      "./plugins/admin/plugin",
+      "./plugins/app/plugin",
+      "./plugins/auth/plugin",
+      "./plugins/store/plugin",
+      "stackpress"
+    ],
+    "packageJson": {
+      "name": "stackpress-app",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": ">=22"
+      },
+      "scripts": {
+        "build": "stackpress build --b config/build -v",
+        "dev": "stackpress serve --b config/develop -v",
+        "generate": "stackpress generate --b config/develop -v",
+        "push": "stackpress push --b config/develop -v"
+      },
+      "dependencies": {
+        "@stackpress/inquire-sqlite3": "0.10.8",
+        "better-sqlite3": "12.4.1",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "stackpress": "0.10.8"
+      },
+      "devDependencies": {
+        "tsx": "4.23.15",
+        "typescript": "5.9.3"
+      },
+      "plugins": [
+        "./plugins/admin/plugin",
+        "./plugins/app/plugin",
+        "./plugins/auth/plugin",
+        "./plugins/store/plugin",
+        "stackpress"
+      ]
+    },
+    "warnings": [],
+    "files": [
+      {
+        "path": ".env.sample",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# Stackpress environment sample\nAPP_ENV=development\nSESSION_SEED=change-me\nDATABASE_URL=./.build/database.sqlite\n"
+      },
+      {
+        "path": ".gitignore",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "node_modules/\n.env\n.build/\n"
+      },
+      {
+        "path": "README.md",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "# stackpress-app\n\nStackpress admin-only project using sqlite.\n\n- Adapter: @stackpress/inquire-sqlite3\n- Driver: better-sqlite3\n"
+      },
+      {
+        "path": "config/capabilities.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "// Preset: admin-only\nexport const capabilities = ['admin', 'auth', 'database'] as const;\n"
+      },
+      {
+        "path": "config/database.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "export const config = {\n  database: 'sqlite',\n  driver: 'better-sqlite3'\n};\n"
+      },
+      {
+        "path": "plugins/admin/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function admin(server: HttpServer) {\n  server.get('/admin', ({ res }) => {\n    res.set('text/plain', 'stackpress-app admin');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/app/plugin.ts",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function app(server: HttpServer) {\n  server.get('/', ({ res }) => {\n    res.set('text/plain', 'Hello from stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/auth/plugin.ts",
+        "binary": false,
+        "fragmentId": "admin-only",
+        "contents": "import type { HttpServer } from 'stackpress/http';\n\nexport default function auth(server: HttpServer) {\n  server.get('/auth', ({ res }) => {\n    res.set('text/plain', 'auth enabled for stackpress-app');\n  });\n}\n"
+      },
+      {
+        "path": "plugins/store/connect.ts",
+        "binary": false,
+        "fragmentId": "database-sqlite",
+        "contents": "// Database: sqlite\n// Adapter: @stackpress/inquire-sqlite3\n// Driver: better-sqlite3\nexport const database = 'sqlite';\nexport const adapter = '@stackpress/inquire-sqlite3';\nexport const driver = 'better-sqlite3';\n\nexport default async function connect() {\n  return { database, adapter, driver };\n}\n"
+      },
+      {
+        "path": "public/asset.txt",
+        "binary": true,
+        "fragmentId": "base",
+        "bytes": 49,
+        "sha256": "3abbc9fe95310af4220220ad03a3a7dd3018fba1a22d805b59a7a538efeec8f3"
+      },
+      {
+        "path": "tsconfig.json",
+        "binary": false,
+        "fragmentId": "base",
+        "contents": "{\n  \"extends\": \"stackpress/tsconfig/esm\",\n  \"compilerOptions\": {\n    \"outDir\": \".build\"\n  }\n}\n"
+      }
+    ]
+  }
+}

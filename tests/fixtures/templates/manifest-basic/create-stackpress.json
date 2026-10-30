@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "name": "manifest-basic",
+  "version": "1.2.3",
+  "types": ["api-only", "minimal"],
+  "databases": ["pglite", "postgres"],
+  "files": ["README.md", "config/app.ts", ".env.sample", "gitignore"],
+  "assets": ["public/logo.bin"],
+  "package": {
+    "dependencies": {
+      "manifest-extra": "1.0.0"
+    },
+    "scripts": {
+      "manifest": "echo manifest"
+    },
+    "plugins": ["manifest/plugin"]
+  },
+  "env": [
+    "MANIFEST_FLAG=true",
+    "DATABASE_URL={{database}}://{{name}}/{{driver}}"
+  ],
+  "capabilities": ["api", "auth", "database"]
+}

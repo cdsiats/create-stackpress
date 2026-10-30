@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "base",
+  "kind": "base",
+  "requires": [],
+  "capabilities": [],
+  "files": [
+    ".env.sample",
+    "AGENTS.md",
+    "README.md",
+    "config/build.ts",
+    "config/client.ts",
+    "config/common.ts",
+    "config/develop.ts",
+    "gitignore",
+    "plugins/app/pages/home.ts",
+    "plugins/app/plugin.ts",
+    "plugins/app/views/home.tsx",
+    "plugins/store/plugin.ts",
+    "plugins/store/populate.ts",
+    "schema.idea",
+    "scripts/stackpress.ts",
+    "tsconfig.json",
+    "uno.config.ts"
+  ],
+  "assets": [],
+  "package": {
+    "dependencies": {
+      "@stackpress/ingest": "0.10.8",
+      "react": "19.2.4",
+      "react-dom": "19.2.4",
+      "stackpress": "0.10.8",
+      "stackpress-server": "0.10.8"
+    },
+    "devDependencies": {
+      "@types/node": "25.3.5",
+      "@types/react": "19.2.14",
+      "@types/react-dom": "19.2.3",
+      "@vitejs/plugin-react": "5.1.4",
+      "dotenv-cli": "11.0.0",
+      "fast-glob": "3.3.3",
+      "prettier": "3.8.1",
+      "ts-morph": "27.0.2",
+      "ts-node": "10.9.2",
+      "tsx": "4.21.0",
+      "typescript": "5.9.3",
+      "unocss": "66.6.6",
+      "vite": "7.3.1"
+    },
+    "scripts": {
+      "build": "tsx scripts/stackpress.ts build --b config/build -v",
+      "dev": "dotenv -e .env -- tsx scripts/stackpress.ts serve --b config/develop -v",
+      "generate": "tsx scripts/stackpress.ts generate --b config/develop -v",
+      "push": "dotenv -e .env -- tsx scripts/stackpress.ts push --b config/develop -v"
+    },
+    "plugins": [
+      "plugins/app/plugin",
+      "plugins/store/plugin",
+      "stackpress"
+    ]
+  },
+  "env": []
+}

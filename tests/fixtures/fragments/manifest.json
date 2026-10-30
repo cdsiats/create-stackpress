@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "fragments": [
+    { "id": "base", "kind": "base", "path": "base" },
+    { "id": "full-stack", "kind": "type", "path": "types/full-stack" },
+    { "id": "api-only", "kind": "type", "path": "types/api-only" },
+    { "id": "minimal", "kind": "type", "path": "types/minimal" },
+    { "id": "admin-only", "kind": "type", "path": "types/admin-only" },
+    { "id": "database-pglite", "kind": "database", "path": "databases/pglite" },
+    { "id": "database-postgres", "kind": "database", "path": "databases/postgres" },
+    { "id": "database-cockroachdb", "kind": "database", "path": "databases/cockroachdb" },
+    { "id": "database-mysql", "kind": "database", "path": "databases/mysql" },
+    { "id": "database-sqlite", "kind": "database", "path": "databases/sqlite" }
+  ]
+}

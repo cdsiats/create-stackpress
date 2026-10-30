@@ -1,0 +1,6 @@
+{
+  "extends": "stackpress/tsconfig/esm",
+  "compilerOptions": {
+    "outDir": ".build"
+  }
+}

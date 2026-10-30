@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "base",
+  "kind": "base",
+  "capabilities": [],
+  "files": [
+    ".env.sample",
+    "README.md",
+    "gitignore",
+    "plugins/app/plugin.ts",
+    "tsconfig.json"
+  ],
+  "assets": ["public/asset.txt"],
+  "package": {
+    "dependencies": {
+      "stackpress": "0.10.8"
+    },
+    "devDependencies": {
+      "tsx": "4.23.15",
+      "typescript": "5.9.3"
+    },
+    "scripts": {
+      "build": "stackpress build --b config/build -v",
+      "dev": "stackpress serve --b config/develop -v",
+      "generate": "stackpress generate --b config/develop -v",
+      "push": "stackpress push --b config/develop -v"
+    },
+    "plugins": [
+      "stackpress",
+      "./plugins/store/plugin",
+      "./plugins/app/plugin"
+    ]
+  },
+  "env": ["SESSION_SEED=change-me"]
+}
