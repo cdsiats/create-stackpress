@@ -1,0 +1,152 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify release
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require the tag to be on the default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git fetch --no-tags origin \
+            "$DEFAULT_BRANCH:refs/remotes/origin/$DEFAULT_BRANCH"
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" \
+            "refs/remotes/origin/$DEFAULT_BRANCH"; then
+            echo "::error::Tag $GITHUB_REF_NAME must point to a commit on $DEFAULT_BRANCH."
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check release metadata
+        run: npm run release:check -- --tag "$GITHUB_REF_NAME"
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Packaged CLI smoke
+        run: node --import tsx --test tests/smoke/cli-package.test.ts
+        env:
+          CREATE_STACKPRESS_SMOKE: '1'
+
+  publish:
+    name: Publish to npm
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@cdsiats/create-stackpress
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Use npm with trusted publishing support
+        run: npm install --global npm@11.21.1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Check release metadata
+        run: npm run release:check -- --tag "$GITHUB_REF_NAME"
+
+      - name: Pack
+        id: pack
+        run: |
+          PACK_DIR="$RUNNER_TEMP/create-stackpress-pack"
+          mkdir -p "$PACK_DIR"
+          TARBALL="$(npm pack --pack-destination "$PACK_DIR")"
+          echo "tarball=$PACK_DIR/$TARBALL" >> "$GITHUB_OUTPUT"
+
+      - name: Publish package
+        env:
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: node scripts/release-publish.mjs --tarball "$TARBALL"
+
+      - name: Upload package tarball
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-tarball
+          path: ${{ steps.pack.outputs.tarball }}
+          if-no-files-found: error
+          retention-days: 7
+
+  github-release:
+    name: Create GitHub release
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download package tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: npm-tarball
+          path: release
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          TARBALL="$(find release -type f -name '*.tgz' -print -quit)"
+          if [ -z "$TARBALL" ]; then
+            echo "::error::No package tarball was downloaded."
+            exit 1
+          fi
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$TARBALL" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "$TARBALL" \
+              --title "$GITHUB_REF_NAME" \
+              --generate-notes \
+              --verify-tag
+          fi

@@ -236,6 +236,12 @@ npm run build
 
 `npm test` runs every `tests/**/*.test.ts` file and does not download project dependencies. CI runs Windows, macOS, and Linux on Node.js 22 and 24. The heavy smoke test is opt-in with `CREATE_STACKPRESS_SMOKE=1`; it installs the packed tarball and builds a generated full-stack/PGlite project. CI enables it for the Node.js 22 job on every operating system.
 
+## Releasing
+
+Releases are published from `v*` git tags by [`.github/workflows/release.yml`](https://github.com/cdsiats/create-stackpress/blob/main/.github/workflows/release.yml). The workflow verifies the tag against `package.json`, runs the full suite and packaged-CLI smoke, publishes the packed tarball to npm with trusted publishing and provenance, and creates a GitHub Release with the tarball attached.
+
+See [RELEASING.md](https://github.com/cdsiats/create-stackpress/blob/main/RELEASING.md) for the one-time npm trusted-publisher setup, the version-bump checklist, and rerun guidance. Run `npm run release:check` before tagging; it verifies that `package.json`, `package-lock.json`, and `src/version.ts` agree.
+
 ## Troubleshooting
 
 - **`Node.js 22 or newer is required`**: upgrade Node.js and re-run.
