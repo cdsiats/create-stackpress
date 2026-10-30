@@ -21,6 +21,7 @@ export function Head(props: ServerPageProps) {
     <>
       <title>{_('Welcome to {{name}}')}</title>
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/styles/global.css" />
       {styles.map((href, index) => (
         <link key={index} rel="stylesheet" type="text/css" href={href} />
       ))}

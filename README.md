@@ -108,6 +108,12 @@ plugins/
     plugin.ts
     connect.ts
     populate.ts
+public/
+  favicon.ico
+  favicon.png
+  icon.png
+  logo.png
+  styles/global.css
 scripts/
   stackpress.ts
 schema.idea
@@ -121,6 +127,8 @@ package.json
 ```
 
 `config/common.ts` combines the shared configuration with the selected type features. `config/develop.ts`, `config/build.ts`, and `config/client.ts` bootstrap the Stackpress server for development, production, and client generation. Database settings live in `config/common.ts`; `plugins/store/connect.ts` is database-specific.
+
+The `public/` directory contains the assets referenced by `config/common.ts` (`/logo.png`, `/icon.png`, `/favicon.ico`) plus the global stylesheet linked by the home view.
 
 For core presets, the generated `package.json` uses the target directory name, sets `private: true`, `type: "module"`, and `engines.node: ">=22"`, and includes the `dev`, `build`, `generate`, and `push` scripts. Its `plugins` list contains `plugins/app/plugin`, `plugins/store/plugin`, and the built-in `"stackpress"` plugin. The built-in plugin loads the admin, API, CSRF, session, SQL, view, schema, language, and server plugins from the config.
 

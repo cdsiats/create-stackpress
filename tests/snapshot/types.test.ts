@@ -31,10 +31,18 @@ const BASE_MANIFEST_FILES = [
   'plugins/app/views/home.tsx',
   'plugins/store/plugin.ts',
   'plugins/store/populate.ts',
+  'public/styles/global.css',
   'schema.idea',
   'scripts/stackpress.ts',
   'tsconfig.json',
   'uno.config.ts'
+];
+
+const BASE_MANIFEST_ASSETS = [
+  'public/favicon.ico',
+  'public/favicon.png',
+  'public/icon.png',
+  'public/logo.png'
 ];
 
 const DATABASE_FILES = [
@@ -85,6 +93,7 @@ function outputPath(manifestPath: string): string {
 function expectedFiles(type: ProjectType): string[] {
   return sorted([
     ...BASE_MANIFEST_FILES.map(outputPath),
+    ...BASE_MANIFEST_ASSETS,
     ...TYPE_FILES[type],
     ...DATABASE_FILES
   ]);
@@ -236,6 +245,8 @@ test('base and type manifests conform to the contract and list exactly their fil
   }
 
   const base = await readManifest(path.join(TEMPLATES_ROOT, 'base'));
+  assert.deepEqual(base.files, BASE_MANIFEST_FILES);
+  assert.deepEqual(base.assets, BASE_MANIFEST_ASSETS);
   assert.deepEqual(base.package?.scripts, {
     build: 'tsx scripts/stackpress.ts build --b config/build -v',
     dev: 'dotenv -e .env -- tsx scripts/stackpress.ts serve --b config/develop -v',
@@ -276,6 +287,21 @@ for (const type of PROJECT_TYPES) {
     assert.match(readme.contents, /`pglite`/);
     assert.match(readme.contents, /@stackpress\/inquire-pglite/);
     assert.match(readme.contents, /@electric-sql\/pglite/);
+
+    const home = project.files.find(
+      (file) => file.path === 'plugins/app/views/home.tsx'
+    );
+    assert.ok(home && typeof home.contents === 'string');
+    assert.match(home.contents, /\/styles\/global\.css/);
+    assert.match(home.contents, /\/favicon\.ico/);
+
+    for (const assetPath of BASE_MANIFEST_ASSETS) {
+      const asset = project.files.find((file) => file.path === assetPath);
+      assert.ok(asset, `missing base asset ${assetPath}`);
+      assert.equal(asset.binary, true);
+      assert.ok(asset.contents instanceof Uint8Array);
+      assert.ok(asset.contents.byteLength > 0, `${assetPath} is empty`);
+    }
 
     const env = new Map(
       project.env.map((line) => {

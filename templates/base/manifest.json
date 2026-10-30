@@ -18,12 +18,18 @@
     "plugins/app/views/home.tsx",
     "plugins/store/plugin.ts",
     "plugins/store/populate.ts",
+    "public/styles/global.css",
     "schema.idea",
     "scripts/stackpress.ts",
     "tsconfig.json",
     "uno.config.ts"
   ],
-  "assets": [],
+  "assets": [
+    "public/favicon.ico",
+    "public/favicon.png",
+    "public/icon.png",
+    "public/logo.png"
+  ],
   "package": {
     "dependencies": {
       "@stackpress/ingest": "0.10.8",
