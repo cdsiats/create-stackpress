@@ -1,0 +1,2 @@
+# Binary asset fixtures must be checked out byte-for-byte on every platform.
+tests/fixtures/fragments/base/public/asset.txt -text
