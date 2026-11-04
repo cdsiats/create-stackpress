@@ -13,6 +13,7 @@ import {
 import type { ResolvedCreateOptions } from '../../src/create/interaction.js';
 import { CliError, exitCodeForError } from '../../src/errors.js';
 import { createOutput } from '../../src/output.js';
+import type { Progress } from '../../src/create/progress.js';
 import type { CreatePlan } from '../../src/types.js';
 
 const DEFAULT_RESOLVED: ResolvedCreateOptions = {
@@ -38,8 +39,10 @@ const FULL_STACK_PGLITE_FILES = [
   'config/common.ts',
   'config/develop.ts',
   'package.json',
+  'plugins/app/pages/error.ts',
   'plugins/app/pages/home.ts',
   'plugins/app/plugin.ts',
+  'plugins/app/views/error.tsx',
   'plugins/app/views/home.tsx',
   'plugins/store/connect.ts',
   'plugins/store/plugin.ts',
@@ -192,6 +195,7 @@ test('generates a full-stack/PGlite project with documentation and next steps', 
     'build',
     'dev',
     'generate',
+    'populate',
     'push'
   ]);
   assert.equal(packageJson.dependencies.stackpress, '0.10.8');
@@ -219,6 +223,7 @@ test('generates a full-stack/PGlite project with documentation and next steps', 
 
   const readme = await fsp.readFile(path.join(target, 'README.md'), 'utf8');
   assert.match(readme, /pnpm install/);
+  assert.match(readme, /pnpm run populate/);
   assert.match(readme, /pnpm run dev/);
   assert.doesNotMatch(readme, /\bnpm install\b/);
   assert.doesNotMatch(readme, /\bnpm run\b/);
@@ -226,6 +231,7 @@ test('generates a full-stack/PGlite project with documentation and next steps', 
   const agents = await fsp.readFile(path.join(target, 'AGENTS.md'), 'utf8');
   assert.match(agents, /pnpm run dev/);
   assert.match(agents, /pnpm run generate/);
+  assert.match(agents, /pnpm run populate/);
   assert.doesNotMatch(agents, /\bnpm run\b/);
 
   assert.deepEqual(result.nextSteps, [
@@ -233,6 +239,7 @@ test('generates a full-stack/PGlite project with documentation and next steps', 
     'pnpm install',
     'pnpm run generate',
     'pnpm run push',
+    'pnpm run populate',
     'pnpm run dev',
     'git init',
     'git add .',
@@ -241,7 +248,7 @@ test('generates a full-stack/PGlite project with documentation and next steps', 
   for (const step of result.nextSteps) {
     assert.ok(stdout.includes(step), `stdout should include "${step}"`);
   }
-  assert.match(stdout, /Files: 24/);
+  assert.match(stdout, /Files: 26/);
   assert.match(stdout, /Pinned versions: stackpress 0\.10\.8/);
   assert.match(stdout, /@electric-sql\/pglite 0\.3\.15/);
   assert.match(stdout, /PGlite runs locally; no database server is required/);
@@ -283,11 +290,12 @@ test('generates an API-only/Postgres project with pinned versions', async () => 
     /DATABASE_URL=postgres:\/\/postgres:postgres@localhost:5432\/app/
   );
 
-  assert.deepEqual(result.nextSteps.slice(0, 5), [
+  assert.deepEqual(result.nextSteps.slice(0, 6), [
     `cd ${target}`,
     'npm install',
     'npm run generate',
     'npm run push',
+    'npm run populate',
     'npm run dev'
   ]);
   assert.match(stdout, /pg 8\.16\.3/);
@@ -311,7 +319,7 @@ test('dry run prints the plan and file list without writing', async () => {
   assert.equal(result.gitInitialized, false);
   assert.deepEqual(result.nextSteps, []);
   assert.match(stdout, /Mode: dry run \(no files will be written\)/);
-  assert.match(stdout, /Files: 24/);
+  assert.match(stdout, /Files: 26/);
   assert.match(stdout, /^\s+package\.json$/m);
   assert.match(stdout, /^\s+README\.md$/m);
   assert.doesNotMatch(stdout, /Created /);
@@ -470,6 +478,66 @@ test('minimal projects run dev without generate or push', async () => {
   assert.deepEqual(calls, [`install:${target}`, `git:${target}`]);
   assert.doesNotMatch(stdout, /run generate/);
   assert.doesNotMatch(stdout, /run push/);
+});
+
+test('reports progress while scaffolding, installing, and initializing git', async () => {
+  const root = await tempRoot();
+  const target = path.join(root, 'progress-app');
+  const plan = makePlan(root, 'progress-app', { install: true, git: true });
+  const events: string[] = [];
+  const progress: Progress = {
+    start: (message) => events.push(`start:${message}`),
+    update: (message) => events.push(`update:${message}`),
+    clear: () => events.push('clear'),
+    stop: (message) => events.push(`stop:${message ?? ''}`),
+    fail: (message) => events.push(`fail:${message}`)
+  };
+  const dependencies: CreateWorkflowDependencies = {
+    install: async () => ({ installed: true }),
+    git: async () => ({ initialized: true })
+  };
+
+  const { result } = await runWorkflow(plan, {
+    cwd: root,
+    dependencies,
+    progress
+  });
+
+  assert.equal(result.installed, true);
+  assert.equal(result.gitInitialized, true);
+  assert.ok(events.includes('start:Preparing project...'));
+  assert.ok(events.includes('start:Scaffolding project...'));
+  assert.ok(events.includes('update:Installing dependencies with npm...'));
+  assert.ok(events.includes('update:Initializing git repository...'));
+  assert.ok(events.includes('stop:Project created.'));
+  assert.equal(events.some((event) => event.startsWith('fail:')), false);
+});
+
+test('marks progress as failed when scaffolding fails', async () => {
+  const root = await tempRoot();
+  const plan = makePlan(root, 'progress-failure-app');
+  const events: string[] = [];
+  const progress: Progress = {
+    start: (message) => events.push(`start:${message}`),
+    update: (message) => events.push(`update:${message}`),
+    clear: () => events.push('clear'),
+    stop: (message) => events.push(`stop:${message ?? ''}`),
+    fail: (message) => events.push(`fail:${message}`)
+  };
+  const dependencies: CreateWorkflowDependencies = {
+    writeProject: async () => {
+      throw CliError.generation('simulated write failure');
+    }
+  };
+
+  await assert.rejects(
+    runWorkflow(plan, { cwd: root, dependencies, progress }),
+    (error: unknown) =>
+      error instanceof CliError && error.code === 'GENERATION'
+  );
+
+  assert.ok(events.includes('fail:Project creation failed.'));
+  assert.equal(events.some((event) => event.startsWith('stop:')), false);
 });
 
 test('install without an injected implementation fails with a --no-install hint', async () => {

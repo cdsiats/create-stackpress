@@ -5,7 +5,7 @@ import type { ToastPosition } from 'react-toastify';
 //types
 import type {
   AdminConfig,
-  APIType,
+  ApiType,
   ApiConfig,
   AuthConfig,
   Method
@@ -209,7 +209,7 @@ export const api: ApiConfig | undefined =
           {
             method: 'GET' as Method,
             route: '/api/auth/search',
-            type: 'public' as APIType,
+            type: 'public' as ApiType,
             event: 'auth-search',
             cors: true,
             data: {}
@@ -217,7 +217,7 @@ export const api: ApiConfig | undefined =
           {
             method: 'GET' as Method,
             route: '/api/profile/search',
-            type: 'app' as APIType,
+            type: 'app' as ApiType,
             scopes: ['user'],
             event: 'profile-search',
             data: {}
@@ -225,7 +225,7 @@ export const api: ApiConfig | undefined =
           {
             method: 'GET' as Method,
             route: '/api/profile/detail/:id',
-            type: 'app' as APIType,
+            type: 'app' as ApiType,
             scopes: ['user'],
             event: 'profile-detail',
             data: {}
@@ -233,7 +233,7 @@ export const api: ApiConfig | undefined =
           {
             method: 'GET' as Method,
             route: '/api/profile/get/:key/:value',
-            type: 'app' as APIType,
+            type: 'app' as ApiType,
             scopes: ['user'],
             event: 'profile-get',
             data: {}
@@ -241,7 +241,7 @@ export const api: ApiConfig | undefined =
           {
             method: 'GET' as Method,
             route: '/api/my/address',
-            type: 'session' as APIType,
+            type: 'session' as ApiType,
             scopes: ['user'],
             event: 'profile-detail',
             data: {}
@@ -249,7 +249,7 @@ export const api: ApiConfig | undefined =
           {
             method: 'GET' as Method,
             route: '/api/my/files',
-            type: 'session' as APIType,
+            type: 'session' as ApiType,
             scopes: ['user'],
             event: 'profile-detail',
             data: {}
@@ -265,9 +265,33 @@ export const auth: AuthConfig | undefined =
         redirect: type === 'admin-only' ? '/admin' : '/',
         '2fa': { issuer: '{{name}}' },
         roles: ['USER'],
-        username: true,
-        email: true,
-        phone: true,
+        menu: [
+          {
+            name: 'With Username',
+            icon: 'user',
+            path: '/auth/signin/username'
+          },
+          {
+            name: 'With Email',
+            icon: 'envelope',
+            path: '/auth/signin/email'
+          },
+          {
+            name: 'With Phone',
+            icon: 'phone',
+            path: '/auth/signin/phone'
+          },
+          {
+            name: 'Create a New Account',
+            icon: 'user-plus',
+            path: '/auth/signup'
+          },
+          {
+            type: 'footer',
+            name: 'Back to Home',
+            path: '/'
+          }
+        ],
         password: {
           min: 8,
           max: 32,

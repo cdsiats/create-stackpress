@@ -13,8 +13,13 @@ Generated with `create-stackpress`.
 npm install
 npm run generate
 npm run push
+npm run populate
 npm run dev
 ```
+
+`npm run populate` seeds the default admin account for projects with
+authentication enabled. The default credentials are `admin` / `Admin123!`; set
+`ADMIN_PASS` in `.env` to use a different password.
 
 The development server starts at <http://localhost:3000>. `npm run build`
 creates the production build.
@@ -29,6 +34,10 @@ creates the production build.
 - The built-in `stackpress` plugin reads this configuration to generate API
   routes, admin surfaces, authentication, CSRF, sessions, roles, and
   permissions.
+- `plugins/app/plugin.ts` installs the global error handler. HTTP errors render
+  `plugins/app/views/error.tsx`; terminal errors stay on the CLI path.
+- The auth config in `config/common.ts` lists the username, email, and phone
+  sign-in options shown on `/auth/signin`.
 
 ## Environment
 
@@ -38,7 +47,8 @@ you need. Never commit `.env`.
 ## Structure
 
 - `config/` holds application, feature, and database configuration.
-- `plugins/app/` holds application routes and views.
+- `plugins/app/` holds application routes and views, including the starter page
+  and the global error page.
 - `plugins/store/` holds the database connection and populate logic.
 - `public/` holds the logo, icon, favicons, and global styles.
 - `schema.idea` holds the schema declarations.

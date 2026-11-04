@@ -115,6 +115,7 @@ test('builds next steps for each preset and install/git state', () => {
       'pnpm install',
       'pnpm run generate',
       'pnpm run push',
+      'pnpm run populate',
       'pnpm run dev',
       'git init',
       'git add .',

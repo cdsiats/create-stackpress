@@ -10,6 +10,7 @@ import {
   readJson,
   REPO_ROOT,
   runCli,
+  runCommand,
   runInstalledCli,
   runNpm,
   tempRoot,
@@ -447,6 +448,25 @@ test(
       describeCommandFailure('npm install in the generated project', install)
     );
 
+    const typecheck = runCommand(
+      process.execPath,
+      [
+        path.join(target, 'node_modules', 'typescript', 'bin', 'tsc'),
+        '--noEmit',
+        '-p',
+        'tsconfig.json'
+      ],
+      { cwd: target, timeout: 300_000 }
+    );
+    assert.equal(
+      typecheck.status,
+      0,
+      describeCommandFailure(
+        'tsc --noEmit in the generated project',
+        typecheck
+      )
+    );
+
     const build = runNpm(['run', 'build'], {
       cwd: target,
       timeout: 300_000
@@ -455,6 +475,14 @@ test(
       build.status,
       0,
       describeCommandFailure('npm run build in the generated project', build)
+    );
+
+    const builtViews = await fsp.readdir(
+      path.join(target, '.build', 'views')
+    );
+    assert.ok(
+      builtViews.some((file) => file.startsWith('error-')),
+      'the production build should include the error view'
     );
 
     assert.ok(existsSync(path.join(target, 'node_modules', 'stackpress')));

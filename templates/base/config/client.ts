@@ -97,7 +97,6 @@ export const config: Config = {
   ...(common.auth ? { auth: common.auth } : {}),
   brand: common.brand,
   cli: common.cli,
-  client: common.client,
   cookie: common.cookie,
   database: common.database,
   email: common.email,

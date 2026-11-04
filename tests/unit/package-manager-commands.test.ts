@@ -46,17 +46,24 @@ test('maps run-script commands and exact next-step commands', () => {
       `${manager} install`,
       `${manager} run generate`,
       `${manager} run push`,
+      `${manager} run populate`,
       `${manager} run dev`
     ]);
   }
 });
 
 test('next-step scripts follow the contract order', () => {
-  assert.deepEqual([...NEXT_STEP_SCRIPTS], ['generate', 'push', 'dev']);
+  assert.deepEqual([...NEXT_STEP_SCRIPTS], [
+    'generate',
+    'push',
+    'populate',
+    'dev'
+  ]);
   assert.deepEqual(getNextStepCommands('pnpm'), [
     'pnpm install',
     'pnpm run generate',
     'pnpm run push',
+    'pnpm run populate',
     'pnpm run dev'
   ]);
 });

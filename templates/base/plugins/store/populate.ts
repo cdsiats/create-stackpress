@@ -2,7 +2,7 @@
 import type { ProfileAuth } from 'stackpress';
 import { action } from 'stackpress/server';
 
-const secret = process.env.ADMIN_PASS || 'admin';
+const secret = process.env.ADMIN_PASS || 'Admin123!';
 
 export default action(async function Populate({ ctx }) {
   //Presets without authentication do not need a seeded admin account.
@@ -14,6 +14,8 @@ export default action(async function Populate({ ctx }) {
       name: 'Admin',
       username: 'admin',
       email: 'admin@project.com',
+      //stackpress-session normalizePhone expects a string
+      phone: '',
       secret,
       roles: [ 'ADMIN' ]
     });

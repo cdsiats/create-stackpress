@@ -104,6 +104,7 @@ test('yes mode uses install and git defaults', async () => {
   assert.equal(resolved.packageManager, 'pnpm');
   assert.equal(resolved.install, true);
   assert.equal(resolved.git, true);
+  assert.equal(resolved.interactive, false);
 });
 
 test('non-interactive mode defaults to scaffold only', async () => {
@@ -116,6 +117,7 @@ test('non-interactive mode defaults to scaffold only', async () => {
   assert.ok(resolved);
   assert.equal(resolved.install, false);
   assert.equal(resolved.git, false);
+  assert.equal(resolved.interactive, false);
 });
 
 test('interactive mode asks in order and returns the plan', async () => {
@@ -138,6 +140,7 @@ test('interactive mode asks in order and returns the plan', async () => {
   assert.equal(resolved.packageManager, 'pnpm');
   assert.equal(resolved.install, false);
   assert.equal(resolved.git, true);
+  assert.equal(resolved.interactive, true);
   assert.deepEqual(calls, [
     'Where should the project be created?',
     'Project type',

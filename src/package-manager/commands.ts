@@ -16,7 +16,12 @@ const COMMAND_MAP: Record<
 };
 
 /** Scripts the CLI contract prints as next steps, in contract order. */
-export const NEXT_STEP_SCRIPTS = ['generate', 'push', 'dev'] as const;
+export const NEXT_STEP_SCRIPTS = [
+  'generate',
+  'push',
+  'populate',
+  'dev'
+] as const;
 export type NextStepScript = (typeof NEXT_STEP_SCRIPTS)[number];
 
 /**
@@ -149,7 +154,7 @@ export function formatPackageManagerCommand(
 
 /**
  * Exact next-step commands from the CLI contract: `<pm> install`,
- * `<pm> run generate`, `<pm> run push`, `<pm> run dev`.
+ * `<pm> run generate`, `<pm> run push`, `<pm> run populate`, `<pm> run dev`.
  */
 export function getNextStepCommands(
   manager: PackageManager,
