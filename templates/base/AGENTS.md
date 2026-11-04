@@ -8,6 +8,8 @@ This is a Stackpress `{{type}}` project using `{{database}}` with the
 - `npm install` installs dependencies.
 - `npm run generate` regenerates schema and client artifacts.
 - `npm run push` applies the schema to the configured database.
+- `npm run populate` seeds the default admin account for auth-enabled projects
+  (`admin` / `Admin123!` unless `ADMIN_PASS` overrides it).
 - `npm run dev` starts the development server.
 - `npm run build` creates the production build.
 
@@ -25,7 +27,8 @@ This is a Stackpress `{{type}}` project using `{{database}}` with the
 ## Structure
 
 - `config/` holds application, feature, and database configuration.
-- `plugins/app/` holds application routes and views.
+- `plugins/app/` holds application routes and views, including the starter page
+  and the global error page.
 - `plugins/store/` holds the database connection and populate logic.
 - `public/` holds the logo, icon, favicons, and global styles.
 - `schema.idea` holds the schema declarations.

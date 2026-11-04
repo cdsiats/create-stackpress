@@ -102,7 +102,9 @@ config/
 plugins/
   app/
     plugin.ts
+    pages/error.ts
     pages/home.ts
+    views/error.tsx
     views/home.tsx
   store/
     plugin.ts
@@ -130,7 +132,9 @@ package.json
 
 The `public/` directory contains the assets referenced by `config/common.ts` (`/logo.png`, `/icon.png`, `/favicon.ico`) plus the global stylesheet linked by the home view.
 
-For core presets, the generated `package.json` uses the target directory name, sets `private: true`, `type: "module"`, and `engines.node: ">=22"`, and includes the `dev`, `build`, `generate`, and `push` scripts. Its `plugins` list contains `plugins/app/plugin`, `plugins/store/plugin`, and the built-in `"stackpress"` plugin. The built-in plugin loads the admin, API, CSRF, session, SQL, view, schema, language, and server plugins from the config.
+The full-stack starter page uses a blank full-page layout rather than the admin layout, so it has no admin sidebar or header navigation. It links to the generated admin, the auth sign-in options, an API endpoint, the Stackpress guides, and a light/dark theme toggle. The auth config declares username, email, and phone sign-in options plus account creation. The app plugin installs a global error handler that renders `plugins/app/views/error.tsx` for HTTP errors and keeps terminal errors on the CLI path.
+
+For core presets, the generated `package.json` uses the target directory name, sets `private: true`, `type: "module"`, and `engines.node: ">=22"`, and includes the `dev`, `build`, `generate`, `push`, and `populate` scripts. Its `plugins` list contains `plugins/app/plugin`, `plugins/store/plugin`, and the built-in `"stackpress"` plugin. The built-in plugin loads the admin, API, CSRF, session, SQL, view, schema, language, and server plugins from the config.
 
 For core presets, `AGENTS.md` is included by default and can be omitted with `--no-agents-md`. The application does not wrap or replace the existing `stackpress create` command.
 
@@ -192,11 +196,13 @@ After scaffolding, the CLI prints the exact commands for the selected package ma
 | --- | --- |
 | Install skipped | `cd <target>`, `<pm> install` |
 | Install completed | `cd <target>` |
-| Full-stack, API-only, or admin-only | `<pm> run generate`, `<pm> run push`, `<pm> run dev` |
+| Full-stack, API-only, or admin-only | `<pm> run generate`, `<pm> run push`, `<pm> run populate`, `<pm> run dev` |
 | Minimal | `<pm> run dev` |
 | Git skipped or failed | `git init`, `git add .`, `git commit -m "Initial commit"` |
 
 Copy `.env.sample` to `.env` before starting the app, unless `--db-url` already created `.env`. The default development server listens on <http://localhost:3000>.
+
+For auth-enabled presets, `<pm> run populate` seeds the default admin account. The default credentials are `admin` / `Admin123!`; set `ADMIN_PASS` in `.env` before populating to choose a different password.
 
 Database prerequisites:
 

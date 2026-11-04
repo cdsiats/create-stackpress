@@ -23,6 +23,7 @@ async function main(): Promise<void> {
     { resolveCreateOptions },
     { buildCreatePlan, inferPackageManagerSource },
     { runCreate },
+    { createProgress },
     { initializeGit },
     { installDependencies },
     { createOutput }
@@ -30,6 +31,7 @@ async function main(): Promise<void> {
     import('./create/interaction.js'),
     import('./create/plan.js'),
     import('./create/workflow.js'),
+    import('./create/progress.js'),
     import('./git/index.js'),
     import('./package-manager/install.js'),
     import('./output.js')
@@ -44,6 +46,7 @@ async function main(): Promise<void> {
 
   const plan = buildCreatePlan(resolved);
   const output = createOutput({ noColor: resolved.noColor });
+  const progress = resolved.interactive ? createProgress() : undefined;
   const packageManagerSource = options.packageManager
     ? 'selected with --pm'
     : inferPackageManagerSource(resolved.packageManager);
@@ -53,6 +56,7 @@ async function main(): Promise<void> {
     databaseUrl: resolved.databaseUrl,
     cwd: process.cwd(),
     output,
+    progress,
     packageManagerSource,
     explicitType,
     explicitDatabase,

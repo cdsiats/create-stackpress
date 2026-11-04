@@ -30,6 +30,7 @@ import {
   TEMPLATE_VERSION
 } from '../version.js';
 import { applyPackageManagerDocuments } from './documents.js';
+import type { Progress } from './progress.js';
 import {
   buildNextSteps,
   describeDatabasePrerequisite,
@@ -72,6 +73,7 @@ export type InstallContext = {
   project: ResolvedProject;
   targetDir: string;
   output: Output;
+  quiet?: boolean;
 };
 
 export type InstallOutcome = {
@@ -126,6 +128,7 @@ export type RunCreateOptions = {
   explicitType?: boolean;
   explicitDatabase?: boolean;
   preparedTemplate?: PreparedTemplate;
+  progress?: Progress;
   dependencies?: CreateWorkflowDependencies;
 };
 
@@ -374,24 +377,54 @@ export async function runCreate(
   }
 
   const preflight = dependencies.preflight ?? preflightPlan;
-  const preflightResult = await preflight(plan, {
-    nodeVersion: options.nodeVersion,
-    commandExists: options.commandExists,
-    cwd,
-    explicitType: options.explicitType,
-    explicitDatabase: options.explicitDatabase
-  });
+  const progress = options.progress;
+  let progressActive = false;
+  const startProgress = (message: string): void => {
+    if (!progress) return;
+    progress.start(message);
+    progressActive = true;
+  };
+  const updateProgress = (message: string): void => {
+    if (!progress || !progressActive) return;
+    progress.update(message);
+  };
+  const stopProgress = (message?: string): void => {
+    if (!progress || !progressActive) return;
+    progress.stop(message);
+    progressActive = false;
+  };
+  const clearProgress = (): void => {
+    if (!progress || !progressActive) return;
+    progress.clear();
+    progressActive = false;
+  };
+  const failProgress = (message: string): void => {
+    if (!progress || !progressActive) return;
+    progress.fail(message);
+    progressActive = false;
+  };
 
-  let warnings = [...preflightResult.warnings];
-  if (plan.git && preflightResult.gitAvailable && !dependencies.git) {
-    warnings.push(
-      'No git implementation was provided for this workflow run; skipping it. Run git init manually after scaffolding.'
-    );
-  }
-
-  let prepared = options.preparedTemplate ?? preflightResult.preparedTemplate;
-  let ownsPrepared = prepared !== undefined;
+  let prepared: PreparedTemplate | undefined;
+  let ownsPrepared = false;
   try {
+    startProgress('Preparing project...');
+    const preflightResult = await preflight(plan, {
+      nodeVersion: options.nodeVersion,
+      commandExists: options.commandExists,
+      cwd,
+      explicitType: options.explicitType,
+      explicitDatabase: options.explicitDatabase
+    });
+
+    let warnings = [...preflightResult.warnings];
+    if (plan.git && preflightResult.gitAvailable && !dependencies.git) {
+      warnings.push(
+        'No git implementation was provided for this workflow run; skipping it. Run git init manually after scaffolding.'
+      );
+    }
+
+    prepared = options.preparedTemplate ?? preflightResult.preparedTemplate;
+    ownsPrepared = prepared !== undefined;
     if (!prepared && plan.template !== undefined) {
       const prepare =
         dependencies.prepareTemplateSource ?? prepareTemplateSource;
@@ -410,6 +443,7 @@ export async function runCreate(
     );
     validateResolvedProject(project);
 
+    clearProgress();
     printPlanReview({
       output,
       plan,
@@ -432,6 +466,7 @@ export async function runCreate(
       };
     }
 
+    startProgress('Scaffolding project...');
     const write = dependencies.writeProject ?? writeProject;
     const writeResult = await write(
       project,
@@ -446,12 +481,16 @@ export async function runCreate(
 
     let installed = false;
     if (plan.install && dependencies.install) {
+      updateProgress(
+        `Installing dependencies with ${plan.packageManager}...`
+      );
       try {
         const outcome = (await dependencies.install({
           plan,
           project,
           targetDir: plan.targetDir,
-          output
+          output,
+          quiet: progressActive
         })) ?? {};
         installed = outcome.installed ?? true;
         warnings.push(...(outcome.warnings ?? []));
@@ -471,12 +510,14 @@ export async function runCreate(
 
     let gitInitialized = false;
     if (plan.git && preflightResult.gitAvailable && dependencies.git) {
+      updateProgress('Initializing git repository...');
       try {
         const outcome = (await dependencies.git({
           plan,
           project,
           targetDir: plan.targetDir,
-          output
+          output,
+          quiet: progressActive
         })) ?? {};
         gitInitialized = outcome.initialized ?? true;
         warnings.push(...(outcome.warnings ?? []));
@@ -499,6 +540,7 @@ export async function runCreate(
       scripts
     });
 
+    stopProgress('Project created.');
     printWarnings(output, warnings);
     printSuccess({ output, plan, project, template: prepared });
     printNextSteps({
@@ -516,6 +558,13 @@ export async function runCreate(
       warnings,
       nextSteps
     };
+  } catch (error) {
+    failProgress(
+      error instanceof CliError && error.code === 'INTERRUPTED'
+        ? 'Cancelled.'
+        : 'Project creation failed.'
+    );
+    throw error;
   } finally {
     if (ownsPrepared && prepared) {
       await prepared.cleanup().catch(() => undefined);

@@ -47,7 +47,9 @@ export const config: Config = {
         { method: 'GET', route: '/images/**' },
         { method: 'GET', route: '/styles/**' },
         { method: 'GET', route: '/favicon.ico' },
-        { method: 'GET', route: '/favicon.png' }
+        { method: 'GET', route: '/favicon.png' },
+        { method: 'GET', route: '/icon.png' },
+        { method: 'GET', route: '/logo.png' }
       ],
       USER: [
         ...common.session.access.USER,
@@ -63,7 +65,9 @@ export const config: Config = {
         { method: 'GET', route: '/images/**' },
         { method: 'GET', route: '/styles/**' },
         { method: 'GET', route: '/favicon.ico' },
-        { method: 'GET', route: '/favicon.png' }
+        { method: 'GET', route: '/favicon.png' },
+        { method: 'GET', route: '/icon.png' },
+        { method: 'GET', route: '/logo.png' }
       ],
       GUEST: [
         ...common.session.access.GUEST,
@@ -79,7 +83,9 @@ export const config: Config = {
         { method: 'GET', route: '/images/**' },
         { method: 'GET', route: '/styles/**' },
         { method: 'GET', route: '/favicon.ico' },
-        { method: 'GET', route: '/favicon.png' }
+        { method: 'GET', route: '/favicon.png' },
+        { method: 'GET', route: '/icon.png' },
+        { method: 'GET', route: '/logo.png' }
       ]
     }
   },

@@ -8,7 +8,8 @@ export const TOKEN_NAMES = [
   'type',
   'database',
   'adapter',
-  'driver'
+  'driver',
+  'packageManager'
 ] as const;
 export type TokenName = (typeof TOKEN_NAMES)[number];
 export type TemplateTokens = Partial<Record<TokenName, string>>;

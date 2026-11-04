@@ -149,7 +149,9 @@ export async function initializeGit(
   ];
 
   for (const step of steps) {
-    context.output.step(`Running ${step.label}`);
+    if (!context.quiet) {
+      context.output.step(`Running ${step.label}`);
+    }
     const result = await runGit(step.args, cwd, options);
     if (!result.ok) {
       return {
@@ -159,6 +161,8 @@ export async function initializeGit(
     }
   }
 
-  context.output.step('Initialized git repository.');
+  if (!context.quiet) {
+    context.output.step('Initialized git repository.');
+  }
   return { initialized: true, warnings: [] };
 }

@@ -26,8 +26,10 @@ const BASE_MANIFEST_FILES = [
   'config/common.ts',
   'config/develop.ts',
   'gitignore',
+  'plugins/app/pages/error.ts',
   'plugins/app/pages/home.ts',
   'plugins/app/plugin.ts',
+  'plugins/app/views/error.tsx',
   'plugins/app/views/home.tsx',
   'plugins/store/plugin.ts',
   'plugins/store/populate.ts',
@@ -251,6 +253,7 @@ test('base and type manifests conform to the contract and list exactly their fil
     build: 'tsx scripts/stackpress.ts build --b config/build -v',
     dev: 'dotenv -e .env -- tsx scripts/stackpress.ts serve --b config/develop -v',
     generate: 'tsx scripts/stackpress.ts generate --b config/develop -v',
+    populate: 'dotenv -e .env -- tsx scripts/stackpress.ts populate --b config/develop -v',
     push: 'dotenv -e .env -- tsx scripts/stackpress.ts push --b config/develop -v'
   });
   assert.deepEqual(base.package?.plugins, BASE_PLUGINS);
@@ -294,6 +297,59 @@ for (const type of PROJECT_TYPES) {
     assert.ok(home && typeof home.contents === 'string');
     assert.match(home.contents, /\/styles\/global\.css/);
     assert.match(home.contents, /\/favicon\.ico/);
+    assert.match(home.contents, /LayoutBlank/);
+    assert.doesNotMatch(home.contents, /LayoutAdmin/);
+    assert.doesNotMatch(home.contents, /LayoutPanel/);
+    assert.match(home.contents, /starter\.packageManager/);
+    assert.match(home.contents, /runCommand\('populate'\)/);
+    assert.match(home.contents, /const ADMIN_URL = '\/admin\/profile\/search'/);
+    assert.doesNotMatch(home.contents, /href="\/admin"/);
+    assert.match(home.contents, /useSession/);
+    assert.match(home.contents, /\/auth\/signout/);
+    assert.match(home.contents, /Sign out/);
+
+    const homePage = project.files.find(
+      (file) => file.path === 'plugins/app/pages/home.ts'
+    );
+    assert.ok(homePage && typeof homePage.contents === 'string');
+    assert.match(homePage.contents, /const packageManager = 'npm'/);
+
+    const plugin = project.files.find(
+      (file) => file.path === 'plugins/app/plugin.ts'
+    );
+    assert.ok(plugin && typeof plugin.contents === 'string');
+    assert.match(plugin.contents, /server\.on\('error'/);
+    assert.match(plugin.contents, /server\.on\('response'/);
+    assert.match(plugin.contents, /server\.view\.get\('\/error'/);
+
+    const errorPage = project.files.find(
+      (file) => file.path === 'plugins/app/pages/error.ts'
+    );
+    assert.ok(errorPage && typeof errorPage.contents === 'string');
+    assert.match(errorPage.contents, /views\/error/);
+
+    const errorView = project.files.find(
+      (file) => file.path === 'plugins/app/views/error.tsx'
+    );
+    assert.ok(errorView && typeof errorView.contents === 'string');
+    assert.match(errorView.contents, /LayoutBlank/);
+
+    const common = project.files.find(
+      (file) => file.path === 'config/common.ts'
+    );
+    assert.ok(common && typeof common.contents === 'string');
+    assert.match(common.contents, /\/auth\/signin\/username/);
+    assert.match(common.contents, /\/auth\/signin\/email/);
+    assert.match(common.contents, /\/auth\/signin\/phone/);
+    assert.match(common.contents, /Create a New Account/);
+    assert.doesNotMatch(common.contents, /username: true/);
+
+    const developConfig = project.files.find(
+      (file) => file.path === 'config/develop.ts'
+    );
+    assert.ok(developConfig && typeof developConfig.contents === 'string');
+    assert.match(developConfig.contents, /\/logo\.png/);
+    assert.match(developConfig.contents, /\/icon\.png/);
 
     for (const assetPath of BASE_MANIFEST_ASSETS) {
       const asset = project.files.find((file) => file.path === assetPath);
@@ -315,7 +371,13 @@ for (const type of PROJECT_TYPES) {
     assert.deepEqual(project.warnings, []);
 
     const scripts = project.packageJson.scripts as Record<string, string>;
-    assert.deepEqual(Object.keys(scripts), ['build', 'dev', 'generate', 'push']);
+    assert.deepEqual(Object.keys(scripts), [
+      'build',
+      'dev',
+      'generate',
+      'populate',
+      'push'
+    ]);
 
     const dependencies = project.packageJson.dependencies as Record<
       string,
@@ -328,3 +390,16 @@ for (const type of PROJECT_TYPES) {
     assert.equal(dependencies['stackpress-server'], '0.10.8');
   });
 }
+
+test('renders the selected package manager in the starter page', async () => {
+  const plan: CreatePlan = {
+    ...createPlan('full-stack'),
+    packageManager: 'pnpm'
+  };
+  const project = await resolveProject({ plan, templateRoot });
+  const homePage = project.files.find(
+    (file) => file.path === 'plugins/app/pages/home.ts'
+  );
+  assert.ok(homePage && typeof homePage.contents === 'string');
+  assert.match(homePage.contents, /const packageManager = 'pnpm'/);
+});

@@ -93,7 +93,8 @@ export async function resolveProject(
     type: plan.type,
     database: plan.database,
     adapter: metadata.adapter,
-    driver: metadata.driver
+    driver: metadata.driver,
+    packageManager: plan.packageManager
   };
 
   const files = new Map<string, ResolvedFile>();

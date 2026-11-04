@@ -103,11 +103,15 @@ export async function installDependencies(
     extraArgs: options.extraArgs
   });
 
-  context.output.step(`Running ${command.display} in ${context.targetDir}`);
+  if (!context.quiet) {
+    context.output.step(`Running ${command.display} in ${context.targetDir}`);
+  }
   const result = await runInstallProcess(command, context.targetDir, options);
 
   if (result.ok) {
-    context.output.step(`Installed dependencies with ${command.display}.`);
+    if (!context.quiet) {
+      context.output.step(`Installed dependencies with ${command.display}.`);
+    }
     return { installed: true };
   }
 

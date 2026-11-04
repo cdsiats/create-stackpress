@@ -48,7 +48,7 @@ export function buildNextSteps(
 
   if (options.customTemplate) {
     const available = new Set(options.scripts ?? []);
-    for (const script of ['generate', 'push', 'dev']) {
+    for (const script of ['generate', 'push', 'populate', 'dev']) {
       if (available.has(script)) {
         steps.push(runScript(script));
       }
@@ -56,7 +56,12 @@ export function buildNextSteps(
   } else if (plan.type === 'minimal') {
     steps.push(runScript('dev'));
   } else {
-    steps.push(runScript('generate'), runScript('push'), runScript('dev'));
+    steps.push(
+      runScript('generate'),
+      runScript('push'),
+      runScript('populate'),
+      runScript('dev')
+    );
   }
 
   if (!options.gitInitialized) {

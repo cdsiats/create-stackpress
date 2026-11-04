@@ -42,6 +42,7 @@ export type ResolvedCreateOptions = {
   dryRun: boolean;
   noColor: boolean;
   noAgentsMd: boolean;
+  interactive?: boolean;
 };
 
 const TYPE_LABELS: Record<ProjectType, string> = {
@@ -242,7 +243,8 @@ export async function resolveCreateOptions(
     overwrite: options.overwrite ?? false,
     dryRun: options.dryRun ?? false,
     noColor: options.noColor ?? false,
-    noAgentsMd: options.noAgentsMd ?? false
+    noAgentsMd: options.noAgentsMd ?? false,
+    interactive: mode === 'interactive'
   };
 
   if (mode === 'interactive') {
